@@ -11,9 +11,9 @@ import (
 )
 
 type AuctionInputDTO struct {
-	ProductName string           `json:"product_name"`
-	Category    string           `json:"category"`
-	Description string           `json:"description"`
+	ProductName string           `json:"product_name" binding:"required,min=1"`
+	Category    string           `json:"category" binding:"required,min=2m"`
+	Description string           `json:"description" binding:"required,min=10,max=200"`
 	Condition   ProductCondition `json:"condition"`
 }
 
