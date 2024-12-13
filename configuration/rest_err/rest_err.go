@@ -22,6 +22,17 @@ func (r *RestErr) Error() string {
 	return r.Message
 }
 
+func ConvertError(internalError *internal_error.InternalError) *RestErr {
+	switch internalError.Err {
+	case "bad_request":
+		return NewBadRequestError(internalError.Error())
+	case "not_found":
+		return NewNotFoundError(internalError.Error())
+	default:
+		return NewInternalServerError(internalError.Error())
+	}
+}
+
 func NewBadRequestError(message string, causes ...Causes) *RestErr {
 	return &RestErr{
 		Message: message,
@@ -46,16 +57,5 @@ func NewNotFoundError(message string) *RestErr {
 		Err:     "not_found",
 		Code:    http.StatusNotFound,
 		Causes:  nil,
-	}
-}
-
-func ConvertError(internalError *internal_error.InternalError) *RestErr {
-	switch internalError.Err {
-	case "bad_request":
-		return NewBadRequestError(internalError.Error())
-	case "not_found":
-		return NewNotFoundError(internalError.Error())
-	default:
-		return NewInternalServerError(internalError.Error())
 	}
 }

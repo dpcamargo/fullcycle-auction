@@ -12,7 +12,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func (a *AuctionRepository) FindAuctionByID(ctx context.Context, id string) (*auction_entity.Auction, *internal_error.InternalError) {
+func (a *AuctionRepository) FindAuctionById(ctx context.Context, id string) (*auction_entity.Auction, *internal_error.InternalError) {
 	filter := bson.M{"_id": id}
 
 	var auctionEntityMongo AuctionEntityMongo
@@ -75,6 +75,6 @@ func (a *AuctionRepository) FindAuctions(
 			Timestamp:   time.Unix(auctionMongo.Timestamp, 0),
 		})
 	}
-	
+
 	return auctionEntity, nil
 }

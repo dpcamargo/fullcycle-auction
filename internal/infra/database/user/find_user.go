@@ -28,7 +28,7 @@ func NewUserRepository(database *mongo.Database) *UserRepository {
 	}
 }
 
-func (u *UserRepository) FindUserByID(ctx context.Context, userID string) (*user_entity.User, *internal_error.InternalError) {
+func (u *UserRepository) FindUserById(ctx context.Context, userID string) (*user_entity.User, *internal_error.InternalError) {
 	filter := bson.M{"_id": userID}
 
 	var userEntityMongo UserEntityMongo

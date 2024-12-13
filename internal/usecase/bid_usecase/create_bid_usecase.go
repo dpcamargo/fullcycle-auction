@@ -34,7 +34,7 @@ type BidUsecase struct {
 	bidChannel          chan bid_entity.Bid
 }
 
-func NewBidUsecase(bidRepository bid_entity.BidEntityRepository) BidUsecaseInterface {
+func NewBidUsecase(bidRepository bid_entity.BidEntityRepository) BidUseCaseInterface {
 	maxSizeInterval := getMaxBatchSizeInterval()
 	maxBatchSize := getMaxBatchSize()
 	bidUsecase := &BidUsecase{
@@ -50,7 +50,7 @@ func NewBidUsecase(bidRepository bid_entity.BidEntityRepository) BidUsecaseInter
 
 var bidBatch []bid_entity.Bid
 
-type BidUsecaseInterface interface {
+type BidUseCaseInterface interface {
 	CreateBid(ctx context.Context, bidInputDTO BidInputDTO) *internal_error.InternalError
 	FindBidByAuctionID(ctx context.Context, auctionID string) ([]BidOutputDTO, *internal_error.InternalError)
 	FindWinningBidByAuctionID(ctx context.Context, auctionID string) (*BidOutputDTO, *internal_error.InternalError)

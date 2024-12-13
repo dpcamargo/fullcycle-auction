@@ -29,10 +29,8 @@ func NewAuctionRepository(database *mongo.Database) *AuctionRepository {
 	}
 }
 
-func (a *AuctionRepository) CreateAuction(
-	ctx context.Context,
-	auctionEntity auction_entity.Auction) *internal_error.InternalError {
-	auctionEntityMongo := &AuctionEntityMongo{
+func (a *AuctionRepository) CreateAuction(ctx context.Context, auctionEntity *auction_entity.Auction) *internal_error.InternalError {
+	auctionEntityMongo := &AuctionEntityMongo {
 		ID:          auctionEntity.ID,
 		ProductName: auctionEntity.ProductName,
 		Category:    auctionEntity.Category,

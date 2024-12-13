@@ -27,6 +27,13 @@ type AuctionOutputDTO struct {
 	Timestamp   time.Time        `json:"timestamp" time_format:"2006-01-02 15:04:05"`
 }
 
+type AuctionUseCaseInterface interface {
+	CreateAuction(ctx context.Context, auctionInput AuctionInputDTO) *internal_error.InternalError
+	FindAuctionById(ctx context.Context, id string) (*AuctionOutputDTO, *internal_error.InternalError)
+	FindAuctions(ctx context.Context, status AuctionStatus, category, productName string) ([]AuctionOutputDTO, *internal_error.InternalError)
+	FindWinningBidByAuctionId(ctx context.Context, auctionId string) (*WinningInfoOutputDTO, *internal_error.InternalError)
+}
+
 type WinningInfoOutputDTO struct {
 	Auction AuctionOutputDTO          `json:"auction"`
 	Bid     *bid_usecase.BidOutputDTO `json:"bid,omitempty"`
@@ -39,6 +46,14 @@ type AuctionUseCase struct {
 
 type ProductCondition int64
 type AuctionStatus int64
+
+func NewAuctionUseCase(auctionRepository auction_entity.AuctionRepositoryInterface,
+	bidRepository bid_entity.BidEntityRepository) AuctionUseCaseInterface {
+	return &AuctionUseCase{
+		auctionRepositoryInterface: auctionRepository,
+		bidRepositoryInterface:     bidRepository,
+	}
+}
 
 func (au *AuctionUseCase) CreateAuction(ctx context.Context, auctionInput AuctionInputDTO) *internal_error.InternalError {
 	auction, err := auction_entity.CreateAuction(

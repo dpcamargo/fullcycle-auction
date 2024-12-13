@@ -8,8 +8,8 @@ import (
 	"github.com/dpcamargo/fullcycle-auction/internal/usecase/bid_usecase"
 )
 
-func (au *AuctionUseCase) FindAuctions(ctx context.Context, status auction_entity.AuctionStatus, category, productName string) ([]AuctionOutputDTO, *internal_error.InternalError) {
-	auctionEntities, err := au.auctionRepositoryInterface.FindAuctions(ctx, status, category, productName)
+func (au *AuctionUseCase) FindAuctions(ctx context.Context, status AuctionStatus, category, productName string) ([]AuctionOutputDTO, *internal_error.InternalError) {
+	auctionEntities, err := au.auctionRepositoryInterface.FindAuctions(ctx, auction_entity.AuctionStatus(status), category, productName)
 	if err != nil {
 		return nil, err
 	}
@@ -29,8 +29,8 @@ func (au *AuctionUseCase) FindAuctions(ctx context.Context, status auction_entit
 	return auctionOutputs, nil
 }
 
-func (au *AuctionUseCase) FindAuctionByID(ctx context.Context, id string) (*AuctionOutputDTO, *internal_error.InternalError) {
-	auctionEntity, err := au.auctionRepositoryInterface.FindAuctionByID(ctx, id)
+func (au *AuctionUseCase) FindAuctionById(ctx context.Context, id string) (*AuctionOutputDTO, *internal_error.InternalError) {
+	auctionEntity, err := au.auctionRepositoryInterface.FindAuctionById(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -46,10 +46,10 @@ func (au *AuctionUseCase) FindAuctionByID(ctx context.Context, id string) (*Auct
 	}, nil
 }
 
-func (au *AuctionUseCase) FindWinningBidByAuctionID(
+func (au *AuctionUseCase) FindWinningBidByAuctionId(
 	ctx context.Context,
 	auctionID string) (*WinningInfoOutputDTO, *internal_error.InternalError) {
-	auction, err := au.auctionRepositoryInterface.FindAuctionByID(ctx, auctionID)
+	auction, err := au.auctionRepositoryInterface.FindAuctionById(ctx, auctionID)
 	if err != nil {
 		return nil, err
 	}

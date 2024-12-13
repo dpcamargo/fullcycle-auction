@@ -62,6 +62,6 @@ const (
 
 type AuctionRepositoryInterface interface {
 	CreateAuction(ctx context.Context, auctionEntity *Auction) *internal_error.InternalError
-	FindAuctionByID(ctx context.Context, id string) (*Auction, *internal_error.InternalError)
+	FindAuctionById(ctx context.Context, id string) (*Auction, *internal_error.InternalError)
 	FindAuctions(ctx context.Context, status AuctionStatus, category, productName string) ([]Auction, *internal_error.InternalError)
 }
